@@ -6,10 +6,13 @@ import Todo from 'classes/Todo';
 import { removeTodo } from 'ducks/TodosDucks/RemoveTodo';
 
 interface ITodoListItem {
+  loading: {
+    remove: boolean
+  },
   todo: Todo
 }
 
-const TodoListItem: React.FC<ITodoListItem> = ({ todo }) => {
+const TodoListItem: React.FC<ITodoListItem> = ({ loading, todo }) => {
 
   const dispatch = useDispatch()
 
@@ -27,7 +30,12 @@ const TodoListItem: React.FC<ITodoListItem> = ({ todo }) => {
           onConfirm={callRemoveTodo}
           okText="Yes"
           cancelText="No">
-          <Button key="btn-remove-item" icon={<DeleteOutlined />}>Remove</Button>
+          <Button
+            key="btn-remove-item"
+            loading={loading.remove}
+            icon={<DeleteOutlined />}>
+              Remove
+            </Button>
         </Popconfirm>
       ]}
     >

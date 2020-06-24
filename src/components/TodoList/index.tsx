@@ -6,15 +6,21 @@ import TodoListItem from './TodoListItem';
 
 const TodoList: React.FC<{}> = () => {
 
-  const todos = useSelector(({ todos }: IRootState) => todos.data)
+  const todos = useSelector(({ todos }: IRootState) => todos)
 
   return (
     <List
-      dataSource={todos}
+      dataSource={todos.data}
       locale={{
         emptyText: <Empty description="No Todos" />
       }}
-      renderItem={todo => <TodoListItem todo={todo} />}
+      renderItem={todo =>
+        <TodoListItem
+          loading={{
+            remove: todos.loading.removeTodo.includes(todo.id)
+          }}
+          todo={todo}
+          />}
       />
   )
 }

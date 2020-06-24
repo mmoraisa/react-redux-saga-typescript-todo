@@ -6,18 +6,18 @@ export const REMOVE_TODO_FAILED = '@todo/REMOVE_FAILED';
 export const REMOVE_TODO_SUCCESS = '@todo/REMOVE_SUCCESS';
 
 /* Action Interfaces */
-interface ICallRemoveTodo {
+export interface ICallRemoveTodo {
   type: string,
   todoId: string
 }
 
-interface IRemoveTodoFailed {
+export interface IRemoveTodoFailed {
   type: string,
   todoId: string,
   error: string
 }
 
-interface IRemoveTodoSuccess {
+export interface IRemoveTodoSuccess {
   type: string,
   todoId: string
 }
@@ -61,6 +61,7 @@ export const onRemoveTodoFailed = (state: ITodosState, { todoId }: IRemoveTodoFa
 
 export const onRemoveTodoSuccess = (state: ITodosState, { todoId }: IRemoveTodoSuccess): ITodosState => ({
   ...state,
+  data: state.data.filter(todo => todo.id !== todoId),
   loading: {
     ...state.loading,
     removeTodo: state.loading.removeTodo.filter(id => id !== todoId)
