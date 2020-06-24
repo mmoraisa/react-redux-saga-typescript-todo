@@ -1,8 +1,10 @@
 import React from 'react';
+import TodoList from 'components/TodoList';
 
-const App = () => (
+const App: React.FC<{}> = () => (
   <div>
-    <h1>App</h1>
+    <h1>Todo List</h1>
+    <TodoList />
   </div>
 );
 
