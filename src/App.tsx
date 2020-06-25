@@ -19,11 +19,11 @@ const App: React.FC<{}> = () => {
     [dispatch]
   )
 
-  const [loadingTodoCreation, modalTodoCreateOpen, alreadyOpenModalTodoCreate] = useSelector(
+  const [loadingTodoCreation, modalTodoCreateOpen, alreadyOpenedModalTodoCreate] = useSelector(
     ({ application, todos }: IRootState) => [
       todos.loading.addTodo,
       application.modals.todoCreate.open,
-      application.modals.todoCreate.alreadyOpen
+      application.modals.todoCreate.alreadyOpened
     ]
   )
 
@@ -40,7 +40,7 @@ const App: React.FC<{}> = () => {
       </StyledHeader>
       <TodoList />
       {
-        alreadyOpenModalTodoCreate &&
+        alreadyOpenedModalTodoCreate &&
         <Suspense fallback={<LoadingScreen />}>
           <ModalTodoCreate visible={modalTodoCreateOpen}/>
         </Suspense>

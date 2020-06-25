@@ -41,7 +41,7 @@ export const onOpenModalTodoCreate = (state: IApplicationState): IApplicationSta
     todoCreate: {
       ...state.modals.todoCreate,
       open: true,
-      alreadyOpen: true
+      alreadyOpened: true
     }
   }
 })

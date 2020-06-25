@@ -4,7 +4,7 @@ export interface IApplicationState {
   modals: {
     todoCreate: {
       open: boolean,
-      alreadyOpen: boolean
+      alreadyOpened: boolean
     }
   }
 }
@@ -13,7 +13,7 @@ const INITIAL_STATE: IApplicationState = {
   modals: {
     todoCreate: {
       open: false,
-      alreadyOpen: false
+      alreadyOpened: false
     }
   }
 }
