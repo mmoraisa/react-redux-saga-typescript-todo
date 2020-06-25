@@ -5,14 +5,14 @@ import { DeleteOutlined } from '@ant-design/icons';
 import Todo from 'classes/Todo';
 import { removeTodo } from 'ducks/TodosDucks/RemoveTodo';
 
-interface ITodoListItem {
+interface ITodoListItemProps {
   loading: {
     remove: boolean
   },
   todo: Todo
 }
 
-const TodoListItem: React.FC<ITodoListItem> = ({ loading, todo }) => {
+const TodoListItem: React.FC<ITodoListItemProps> = ({ loading, todo }) => {
 
   const dispatch = useDispatch()
 

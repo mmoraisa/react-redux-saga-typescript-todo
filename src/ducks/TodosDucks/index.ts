@@ -1,36 +1,31 @@
 import Todo from 'classes/Todo';
 
-import {
-  CALL_REMOVE_TODO, onCallRemoveTodo,
-  REMOVE_TODO_FAILED, onRemoveTodoFailed,
-  REMOVE_TODO_SUCCESS, onRemoveTodoSuccess
-} from './RemoveTodo';
+import addTodoActionHandlers from './AddTodo';
+import removeTodoActionHandlers from './RemoveTodo';
 
 export interface ITodosState {
-  data: Array<Todo>,
+  data: Todo[],
   loading: {
+    addTodo: boolean,
     removeTodo: Array<string>
   }
 }
 
 const INITIAL_STATE: ITodosState = {
   data: [
-    new Todo('Criar projeto exemplo 1', 'Utilizar React, Redux, Saga e Typescript'),
-    new Todo('Criar projeto exemplo 2', 'Utilizar React, Redux, Saga e Typescript'),
-    new Todo('Criar projeto exemplo 3', 'Utilizar React, Redux, Saga e Typescript')
+    new Todo('3d04b772-e887-4f20-a273-74ce5fbaf2e6', 'Criar base do projeto', 'Utilizar o Create React App'),
+    new Todo('2ef6b1c7-f472-4036-a3b5-992444261104', 'Criar estrutura do estado', 'Utilizar Redux'),
+    new Todo('1c2b7538-b5a4-4aff-80ee-cef248ca3007', 'Criar controle de side effects', 'Utilizar Saga')
   ],
   loading: {
+    addTodo: false,
     removeTodo: []
   }
 }
 
 const ACTION_HANDLERS = {
-
-  /* Remove Todo */
-  [CALL_REMOVE_TODO]: onCallRemoveTodo,
-  [REMOVE_TODO_FAILED]: onRemoveTodoFailed,
-  [REMOVE_TODO_SUCCESS]: onRemoveTodoSuccess,
-
+  ...addTodoActionHandlers,
+  ...removeTodoActionHandlers,
 }
 
 export default [INITIAL_STATE, ACTION_HANDLERS]

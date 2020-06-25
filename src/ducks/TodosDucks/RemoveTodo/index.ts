@@ -67,3 +67,9 @@ export const onRemoveTodoSuccess = (state: ITodosState, { todoId }: IRemoveTodoS
     removeTodo: state.loading.removeTodo.filter(id => id !== todoId)
   }
 })
+
+export default {
+  [CALL_REMOVE_TODO]: onCallRemoveTodo,
+  [REMOVE_TODO_FAILED]: onRemoveTodoFailed,
+  [REMOVE_TODO_SUCCESS]: onRemoveTodoSuccess
+}

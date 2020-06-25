@@ -6,8 +6,6 @@ import {
 } from 'ducks/TodosDucks/RemoveTodo';
 import TodosAPI from 'integrations/TodosAPI';
 
-/* Remove Todo */
-
 function* removeTodo({ todoId }: ICallRemoveTodo) {
   try {
     yield call(TodosAPI.removeTodo, todoId)
