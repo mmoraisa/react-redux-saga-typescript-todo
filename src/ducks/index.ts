@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 /* Ducks */
-import ApplicationDucks, { IApplicationState } from 'ducks/ApplicationDucks';
-import TodosDucks, { ITodosState } from 'ducks/TodosDucks';
+import ApplicationDucks, { IApplicationState } from './ApplicationDucks';
+import TodosDucks, { ITodosState } from './TodosDucks';
 
 export interface IRootState {
   application: IApplicationState,

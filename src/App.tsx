@@ -2,11 +2,11 @@ import React, { useCallback, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { IRootState } from 'rootReducer';
-import TodoList from 'components/TodoList';
+import { IRootState } from 'ducks';
 import { openModalTodoCreate } from 'ducks/ApplicationDucks/ModalTodoCreate';
-import { StyledHeader } from './styles';
+import TodoList from 'components/TodoList';
 import LoadingScreen from 'components/LoadingScreen';
+import { StyledHeader } from './styles';
 
 const ModalTodoCreate = React.lazy(() => import('components/modals/ModalTodoCreate'));
 

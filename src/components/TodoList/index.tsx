@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Empty } from 'antd';
 import { useSelector } from 'react-redux';
-import { IRootState } from 'rootReducer';
+import { IRootState } from 'ducks';
 import TodoListItem from './TodoListItem';
 
 const TodoList: React.FC<{}> = () => {
