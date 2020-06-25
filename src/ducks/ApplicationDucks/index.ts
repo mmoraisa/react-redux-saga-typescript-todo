@@ -3,7 +3,8 @@ import modalTodoCreateActionHandlers from './ModalTodoCreate';
 export interface IApplicationState {
   modals: {
     todoCreate: {
-      open: boolean
+      open: boolean,
+      alreadyOpen: boolean
     }
   }
 }
@@ -11,7 +12,8 @@ export interface IApplicationState {
 const INITIAL_STATE: IApplicationState = {
   modals: {
     todoCreate: {
-      open: false
+      open: false,
+      alreadyOpen: false
     }
   }
 }

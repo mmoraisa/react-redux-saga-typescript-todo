@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { IRootState } from 'rootReducer';
 import TodoList from 'components/TodoList';
-import ModalTodoCreate from 'components/modals/ModalTodoCreate';
 import { openModalTodoCreate } from 'ducks/ApplicationDucks/ModalTodoCreate';
 import { StyledHeader } from './styles';
+import LoadingScreen from 'components/LoadingScreen';
+
+const ModalTodoCreate = React.lazy(() => import('components/modals/ModalTodoCreate'));
 
 const App: React.FC<{}> = () => {
 
@@ -17,10 +19,11 @@ const App: React.FC<{}> = () => {
     [dispatch]
   )
 
-  const [loadingTodoCreation, modalTodoCreateOpen] = useSelector(
+  const [loadingTodoCreation, modalTodoCreateOpen, alreadyOpenModalTodoCreate] = useSelector(
     ({ application, todos }: IRootState) => [
       todos.loading.addTodo,
-      application.modals.todoCreate.open
+      application.modals.todoCreate.open,
+      application.modals.todoCreate.alreadyOpen
     ]
   )
 
@@ -36,7 +39,12 @@ const App: React.FC<{}> = () => {
         </Button>
       </StyledHeader>
       <TodoList />
-      <ModalTodoCreate visible={modalTodoCreateOpen}/>
+      {
+        alreadyOpenModalTodoCreate &&
+        <Suspense fallback={<LoadingScreen />}>
+          <ModalTodoCreate visible={modalTodoCreateOpen}/>
+        </Suspense>
+      }
     </>
   );
 }
