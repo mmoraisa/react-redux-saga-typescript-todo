@@ -1,4 +1,4 @@
-import {
+import ActionTypesWithHandlers, {
   CALL_ADD_TODO,
   ADD_TODO_FAILED,
   ADD_TODO_SUCCESS,
@@ -10,6 +10,20 @@ import {
   onAddTodoSuccess,
 } from "./index";
 import Todo from "classes/Todo";
+
+describe("Action Types", () => {
+  it("CALL_ADD_TODO is defined as @todo/CALL_ADD", () => {
+    expect(CALL_ADD_TODO).toBe("@todo/CALL_ADD");
+  });
+
+  it("ADD_TODO_FAILED is defined as @todo/ADD_FAILED", () => {
+    expect(ADD_TODO_FAILED).toBe("@todo/ADD_FAILED");
+  });
+
+  it("ADD_TODO_SUCCESS is defined as @todo/ADD_SUCCESS", () => {
+    expect(ADD_TODO_SUCCESS).toBe("@todo/ADD_SUCCESS");
+  });
+});
 
 describe("Action Creators", () => {
   it("addTodo returns a CALL_ADD_TODO action", () => {
@@ -109,5 +123,13 @@ describe("Action Handlers", () => {
     expect(onAddTodoSuccess(initialState, { todo })).toStrictEqual(
       expectedState
     );
+  });
+});
+
+it("Export Action Types with Handlers", () => {
+  expect(ActionTypesWithHandlers).toStrictEqual({
+    [CALL_ADD_TODO]: onCallAddTodo,
+    [ADD_TODO_FAILED]: onAddTodoFailed,
+    [ADD_TODO_SUCCESS]: onAddTodoSuccess,
   });
 });

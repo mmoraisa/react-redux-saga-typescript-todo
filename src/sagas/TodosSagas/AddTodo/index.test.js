@@ -1,4 +1,5 @@
 import sinon from "sinon";
+import { message } from "antd";
 import { runSaga } from "redux-saga";
 import { all, fork, takeEvery } from "redux-saga/effects";
 import Todo from "classes/Todo";
@@ -11,47 +12,76 @@ import TodosAPI from "integrations/TodosAPI";
 import rootSaga, { addTodo, addTodoSagas } from "./index";
 
 describe("Add todo saga", () => {
-  afterEach(function () {
-    sinon.restore();
+  const error = new Error("Error message");
+  const todoId = "123456789";
+
+  let dispatched = [];
+  let todo;
+
+  afterEach(() => sinon.restore());
+
+  describe("Fail", () => {
+    beforeEach(() => {
+      dispatched = [];
+      todo = new Todo(todoId, "Todo title", "Todo description");
+    });
+
+    const runAddTodoSaga = async (dispatched, todo) => {
+      sinon.stub(TodosAPI, "addTodo").throws(error);
+
+      await runSaga(
+        {
+          dispatch: (action) => dispatched.push(action),
+        },
+        addTodo,
+        { title: todo.title, description: todo.description }
+      ).toPromise();
+    };
+
+    it("dispatches addTodoFailed if API throws error", async () => {
+      await runAddTodoSaga(dispatched, todo);
+      expect(dispatched).toStrictEqual([addTodoFailed(error)]);
+    });
+
+    it("shows fail message", async () => {
+      const showMessageFail = sinon.stub(message, "error");
+
+      await runAddTodoSaga(dispatched, todo);
+
+      sinon.assert.calledWith(showMessageFail, "The todo could not be added!");
+    });
   });
 
-  it("dispatches addTodoSuccess", async () => {
-    const dispatched = [];
-    const todoId = "123456789";
+  describe("Success", () => {
+    beforeEach(() => {
+      dispatched = [];
+      todo = new Todo(todoId, "Todo title", "Todo description");
+    });
 
-    const todo = new Todo(todoId, "Todo title", "Todo description");
+    const runAddTodoSaga = async (dispatched, todoId, todo) => {
+      sinon.stub(TodosAPI, "addTodo").returns(todoId);
 
-    sinon.stub(TodosAPI, "addTodo").returns(todoId);
+      await runSaga(
+        {
+          dispatch: (action) => dispatched.push(action),
+        },
+        addTodo,
+        { title: todo.title, description: todo.description }
+      ).toPromise();
+    };
 
-    await runSaga(
-      {
-        dispatch: (action) => dispatched.push(action),
-      },
-      addTodo,
-      { title: todo.title, description: todo.description }
-    ).toPromise();
+    it("dispatches addTodoSuccess", async () => {
+      await runAddTodoSaga(dispatched, todoId, todo);
+      expect(dispatched).toStrictEqual([addTodoSuccess(todo)]);
+    });
 
-    expect(dispatched).toStrictEqual([addTodoSuccess(todo)]);
-  });
+    it("shows success message", async () => {
+      const showMessageSuccess = sinon.stub(message, "success");
 
-  it("dispatches addTodoFailed if API throws error", async () => {
-    const dispatched = [];
-    const error = new Error("Error message");
-    const todoId = "123456789";
+      await runAddTodoSaga(dispatched, todoId, todo);
 
-    const todo = new Todo(todoId, "Todo title", "Todo description");
-
-    sinon.stub(TodosAPI, "addTodo").throws(error);
-
-    await runSaga(
-      {
-        dispatch: (action) => dispatched.push(action),
-      },
-      addTodo,
-      { title: todo.title, description: todo.description }
-    ).toPromise();
-
-    expect(dispatched).toStrictEqual([addTodoFailed(error)]);
+      sinon.assert.calledWith(showMessageSuccess, "Todo added successfully!");
+    });
   });
 
   it("calls addTodo every CALL_ADD_TODO actions", async () => {
